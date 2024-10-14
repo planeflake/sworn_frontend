@@ -1,0 +1,29 @@
+{
+    "startingAreas": {
+      "title": "Startområder",
+      "plains": {
+        "name": "Sletter",
+        "description": "Et vidstrakt gresslandskap, kjent for sitt rike dyreliv og fruktbare jord. Ideelt for jordbruk og dyrehold."
+      },
+      "forest": {
+        "name": "Skog",
+        "description": "En tett skog fylt med høye trær og skjulte stier. Rik på muligheter for tømmerhogging, urtekunnskap og sanking."
+      },
+      "desert": {
+        "name": "Ørken",
+        "description": "Et stort, tørt område dominert av sand og varme. Dyktig i ørkenoverlevelse, utvinning av sjeldne mineraler og ørkenlandbruk."
+      },
+      "mountains": {
+        "name": "Fjell",
+        "description": "Et røft terreng med høye topper og dype daler. Kjent for gruvedrift, fjelljakt og smiing av sterke materialer."
+      },
+      "swamp": {
+        "name": "Sump",
+        "description": "Et uklart våtmarksområde som kryr av farlige skapninger og verdifulle urter. Ideelt for urtekunnskap, sumpfiske og sumpjakt."
+      },
+      "underDwelling": {
+        "name": "Underjordisk bolig",
+        "description": "Et stort underjordisk nettverk av huler og tunneler, hjem til sjeldne mineraler og mørke hemmeligheter. Spesialiserer seg i underjordisk gruvedrift, utforskning og sniking."
+      }
+    }
+  }

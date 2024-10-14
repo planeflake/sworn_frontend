@@ -1,0 +1,29 @@
+{
+    "startingAreas": {
+      "title": "Starting Areas",
+      "plains": {
+        "name": "Plains",
+        "description": "A wide expanse of grasslands, known for its abundant wildlife and fertile soil. Ideal for farming and animal husbandry."
+      },
+      "forest": {
+        "name": "Forest",
+        "description": "A dense woodland filled with towering trees and hidden paths. Rich in woodcutting, herbalism, and foraging opportunities."
+      },
+      "desert": {
+        "name": "Desert",
+        "description": "A vast, arid region dominated by sand and heat. Skilled in desert survival, mining rare minerals, and desert farming."
+      },
+      "mountains": {
+        "name": "Mountains",
+        "description": "A rugged terrain of high peaks and deep valleys. Known for mining, mountain hunting, and forging strong materials."
+      },
+      "swamp": {
+        "name": "Swamp",
+        "description": "A murky, wetland region teeming with dangerous creatures and valuable herbs. Ideal for herbalism, swamp fishing, and swamp hunting."
+      },
+      "underDwelling": {
+        "name": "Under-Dwelling",
+        "description": "A vast underground network of caves and tunnels, home to rare minerals and dark secrets. Specializes in underground mining, exploration, and stealth."
+      }
+    }
+  }

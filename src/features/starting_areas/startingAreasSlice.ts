@@ -1,14 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { fetchStartingAreasFromApi } from './startingAreasApi';
 import { createAsyncReducers } from '../../utils/asyncReducerUtils';
+import { StartingArea } from '../../types/types';
 import type { RootState } from '../../app/store';
 
-interface StartingArea {
-  id: number;
-  name: string;
-  description: string;
-  parent_area_id: number | null;
-}
 
 interface StartingAreasState {
   items: StartingArea[];
