@@ -1,4 +1,4 @@
-import { Quest, Stage, Choice } from '../types/types';
+import { Quest, Stage } from '../types/types';
 
  
   export const fetchQuest = async (questId: number): Promise<Quest> => {

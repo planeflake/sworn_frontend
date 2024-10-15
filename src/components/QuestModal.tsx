@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { QuestModalProps } from '../types/typeProps';  // Importing props from typeProps file
 import { Quest, Stage, Choice } from '../types/types';
 import { fetchQuest, getNextStage } from '../utils/questUtils';
-import { checkSkillRequirement } from '../utils/characterUtils';
+//import { checkSkillRequirement } from '../utils/characterUtils';
 
 const QuestModal: React.FC<QuestModalProps> = ({
   questId,
@@ -13,7 +13,7 @@ const QuestModal: React.FC<QuestModalProps> = ({
 }) => {
   const [quest, setQuest] = useState<Quest | null>(null);
   const [currentStage, setCurrentStage] = useState<Stage | null>(null);
-  const [stageIndex, setStageIndex] = useState(0);
+  //const [stageIndex, setStageIndex] = useState(0);
   const [outcome, setOutcome] = useState<string | null>(null);
 
   useEffect(() => {
