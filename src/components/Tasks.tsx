@@ -5,6 +5,7 @@ import { AppDispatch, RootState } from '../app/store';
 import { fetchTasks, selectTasks, selectTasksStatus } from '../features/tasks/taskSlice';
 import { Task as TaskType } from '../types/types';
 import Task from './Task';
+import '../styles/tasks.css';
 
 interface TasksProps {
    selectedAreaId: number;
@@ -34,6 +35,9 @@ const Tasks: React.FC<TasksProps> = ({ selectedAreaId }) => {
     return <div className="error">{t('common:error')}</div>;
   }
 
+  if(tasksStatus === 'succeeded' && tasks.length === 0) {
+    console.log(tasks);}
+
   if (!Array.isArray(tasks)) {
     console.error('Tasks is not an array:', tasks);
     return <div>Error: Tasks data is not in the expected format.</div>;
@@ -44,12 +48,13 @@ const Tasks: React.FC<TasksProps> = ({ selectedAreaId }) => {
       <h1 className="tasks-title">{t('tasks:title')}</h1>
       <div className="tasks-grid">
         {tasks.map((task: TaskType) => (
-
-          <Task 
+        <div className={`task-${task.state.state.replace('_','-')} ${task.state.value} `} key={task.id}>
+          <Task
           key={task.id} 
           task={task} 
           theme={theme}
-        />
+          />
+        </div>
         ))}
       </div>
     </div>

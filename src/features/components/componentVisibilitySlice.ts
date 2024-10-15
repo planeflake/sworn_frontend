@@ -7,6 +7,7 @@ export interface ComponentVisibilityState {
   inventory: boolean;
   map: boolean;
   tasks: boolean;
+  questModal: boolean;
   // Add more components as needed
 }
 
@@ -16,6 +17,7 @@ const initialState: ComponentVisibilityState = {
   inventory: false,
   map: false,
   tasks: false,
+  questModal: false,
   // Set initial visibility for other components
 };
 

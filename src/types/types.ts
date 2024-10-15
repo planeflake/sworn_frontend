@@ -47,6 +47,11 @@ export interface TaskState {
   error: string | null;
 }
 
+export interface TaskAvailability {
+  state: 'available' | 'unavailable' | 'close_level' | 'close_skill';
+  value: number | null;
+}
+
 // Interface for a single task
 export interface Task {
   id: number;
@@ -65,7 +70,8 @@ export interface Task {
   skills: TaskSkill[];  // Array of related skills
   has_energy: boolean;  // Whether the character has enough energy
   has_required_resources: boolean;  // Whether the character has the needed resources
-  state: TaskState;  // Task state, which can be complex
+  state: TaskAvailability;  // Task state, which can be complex
+  css_class:string;
 }
 
 export interface Skill {
@@ -93,3 +99,48 @@ export interface StartingArea {
     task: Task[];
     theme: string;
   }
+
+export interface ComponentVisibilityState {
+  startingAreas: boolean;
+  skills: boolean;
+  inventory: boolean;
+  map: boolean;
+  tasks: boolean;
+  questModal: boolean;
+}
+
+// types.ts
+
+export interface Choice {
+  choice_id: number;
+  text: string;
+  outcome: {
+    success: string;
+    fail: string;
+  };
+  next_stage?: number;
+  exit_point?: boolean;
+  available?: boolean;
+}
+
+export interface Stage {
+  stage_id: number;
+  description: string;
+  choices: Choice[];
+}
+
+export interface Quest {
+  id: number;
+  name: string;
+  description: string;
+  stages: Stage[];
+}
+
+export interface CharacterSkill {
+  skill_name: string;
+  skill_level: number;
+}
+
+export interface SkillRequirement {
+  [skillName: string]: number;
+}
