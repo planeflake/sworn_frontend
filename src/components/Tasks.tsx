@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
 import { AppDispatch, RootState } from '../app/store';
-import { fetchTasks, selectTasks, selectTasksStatus } from '../features/tasks/taskSlice';
-import { Task as TaskType } from '../types/types';
+import { fetchTasks, selectTasks, selectTasksStatus, completeTask } from '../features/tasks/taskSlice';
 import Task from './Task';
 import '../styles/tasks.css';
 
@@ -25,36 +24,45 @@ const Tasks: React.FC<TasksProps> = ({ selectedAreaId }) => {
     }
   }, [tasksStatus, dispatch, selectedAreaId]);
 
+  const handleCompleteTask = useCallback((taskId: number) => {
+    dispatch(completeTask(taskId))
+      .then(() => {
+        console.log('Task completed and tasks refreshed');
+      })
+      .catch((error) => {
+        console.error('Failed to complete task:', error);
+        // You might want to dispatch an action to show an error message to the user
+      });
+  }, [dispatch]);
+
   if (tasksStatus === 'loading') {
-    console.log("Loading tasks...");
     return <div className="loading">{t('common:loading')}</div>;
   }
 
   if (tasksStatus === 'failed') {
-    console.log("Failed to load tasks...");
     return <div className="error">{t('common:error')}</div>;
   }
 
-  if(tasksStatus === 'succeeded' && tasks.length === 0) {
-    console.log(tasks);}
-
   if (!Array.isArray(tasks)) {
     console.error('Tasks is not an array:', tasks);
-    return <div>Error: Tasks data is not in the expected format.</div>;
+    return <div className="error">{t('tasks:dataFormatError')}</div>;
+  }
+
+  if (tasks.length === 0) {
+    return <div className="no-tasks">{t('tasks:noTasks')}</div>;
   }
 
   return (
     <div className={`tasks-container ${theme}`}>
       <h1 className="tasks-title">{t('tasks:title')}</h1>
       <div className="tasks-grid">
-        {tasks.map((task: TaskType) => (
-        <div className={`task-${task.state.state.replace('_','-')} ${task.state.value} `} key={task.id}>
+        {tasks.map((task) => (
           <Task
-          key={task.id} 
-          task={task} 
-          theme={theme}
+            key={task.id} 
+            task={task as any}  // Type assertion
+            theme={theme}
+            onComplete={handleCompleteTask}
           />
-        </div>
         ))}
       </div>
     </div>

@@ -3,6 +3,8 @@ import { initReactI18next } from 'react-i18next';
 
 import enSkills from './locales/en/skills.json';
 import noSkills from './locales/no/skills.json';
+import enTasks from './locales/en/tasks.json';
+//import noTasks from './locales/no/tasks.json';
 import enStartingAreas from './locales/en/starting_areas.json'; // Importing startingAreas
 import noStartingAreas from './locales/no/starting_areas.json'; // Importing startingAreas
 
@@ -13,6 +15,7 @@ i18n
       en: {
         skills: enSkills,
         startingAreas: enStartingAreas,  // Adding startingAreas namespace for English
+        tasks: enTasks,
       },
       no: {
         skills: noSkills,

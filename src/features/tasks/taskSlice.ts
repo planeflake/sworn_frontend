@@ -1,8 +1,6 @@
-// taskSlice.ts
-
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { TasksApiResponse, TasksState } from '../../types/types';
-import { fetchTasksForStartingArea } from './taskApi';
+import { fetchTasksForStartingArea, completeTask as completeTaskApi } from './taskApi';
 import { RootState } from '../../app/store';
 
 const initialState: TasksState = {
@@ -26,8 +24,21 @@ export const fetchTasks = createAsyncThunk<TasksApiResponse, void, { state: Root
     }
 
     const response = await fetchTasksForStartingArea({ startingAreaId, characterId });
-    console.log('Thunk Response:', response);  // Add this line
+    console.log('Thunk Response:', response);
     return response;
+  }
+);
+
+export const completeTask = createAsyncThunk<void, number, { state: RootState }>(
+  'tasks/completeTask',
+  async (taskId, { getState, dispatch }) => {
+    const state = getState();
+    const characterId = state.character.id || 1; // Use 1 as fallback if not set
+
+    await completeTaskApi({ taskId, characterId });
+    
+    // Fetch all updated tasks after completion
+    await dispatch(fetchTasks());
   }
 );
 
@@ -41,13 +52,24 @@ const tasksSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(fetchTasks.fulfilled, (state, action) => {
-        console.log('Fulfilled Action Payload:', action.payload);  // Add this line
+        console.log('Fulfilled Action Payload:', action.payload);
         state.status = 'succeeded';
         state.items = Array.isArray(action.payload) ? action.payload : action.payload.tasks || [];
       })
       .addCase(fetchTasks.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.error.message || 'An unknown error occurred';
+      })
+      .addCase(completeTask.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(completeTask.fulfilled, (state) => {
+        state.status = 'succeeded';
+        // The task list will be fully updated by the fetchTasks call in the thunk
+      })
+      .addCase(completeTask.rejected, (state, action) => {
+        state.status = 'failed';
+        state.error = action.error.message || 'Failed to complete task';
       });
   },
 });

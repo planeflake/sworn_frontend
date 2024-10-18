@@ -1,4 +1,17 @@
-import { Resource } from "i18next";
+export interface Resource {
+  id: number;
+  resource_name: string;
+  character_quantity: number;
+  required_quantity: number;
+}
+
+
+export interface CharacterResource {
+  id: number;
+  icon: string;
+  name: string;
+  quantity: number;
+}
 
 export interface Character {
   id: number;
@@ -143,4 +156,46 @@ export interface CharacterSkill {
 
 export interface SkillRequirement {
   [skillName: string]: number;
+}
+
+export interface TaskType {
+  id: number;
+  name: string;
+  description: string;
+  difficulty: number;
+  xp: number;
+  base_energy: number;
+  base_duration: number;
+  icon: string;
+  level_required: number | null;
+  repeatable: boolean;
+  has_energy: boolean;
+  has_required_resources: boolean;
+  level_difference: number;
+  skill_point_reward: number | null;
+  css_class: string;
+  state: {
+    state: string;
+    value: number;
+  };
+  skills: {
+    id: number;
+    name: string;
+    character_skill_level: number;
+    required_skill_level: number | null;
+    skill_level_difference: number | null;
+  }[];
+  resources: Resource[];
+}
+
+
+export interface ResourceApiResponse {
+  resources: Resource[];
+}
+
+// Interface for the task state
+export interface ResourceState {
+  items:Resource[]
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
 }
