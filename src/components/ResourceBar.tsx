@@ -1,27 +1,40 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
-import { useSelector } from "react-redux";
-import { RootState } from "../app/store";
-import { CharacterResource } from "../types/types";
-
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useAppDispatch } from '../app/store';  // Import the useAppDispatch hook
+import { fetchResources, selectResources, selectResourcesStatus } from '../features/resources/resourcesSlice';
+import { CharacterResource } from '../types/types';
 const ResourceBar: React.FC = () => {
-    const { t } = useTranslation('common');
-    
-    // Correct the useSelector to match the state structure
-    const resources = useSelector((state: RootState) => state.character.resources) as CharacterResource[];
+  const dispatch = useAppDispatch();  // Use the custom hook to get the dispatch function
 
-    return (
-        <div className="resource-bar">
-            <h2>{t('resources')}</h2>
-            <ul>
-                {resources.map((resource) => (
-                    <li key={resource.id}>
-                        {resource.name}: {resource.quantity}
-                    </li>
-                ))}
-            </ul>
-        </div>
-    );
-}
+  const resources = useSelector(selectResources);
+  const status = useSelector(selectResourcesStatus);
+
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchResources());
+    }
+  }, [dispatch, status]);
+
+  console.log("Resources: ",resources);
+
+  return (
+    <div className="resource-bar">
+      <h2>Resources</h2>
+      {status === 'loading' && <p>Loading resources...</p>}
+      {status === 'failed' && <p>Failed to load resources.</p>}
+      <ul>
+        {resources && resources.length > 0 ? (
+          resources.map((resource: CharacterResource) => (
+            <li key={resource.resource_id}>
+              {resource.name}: {resource.quantity}
+            </li>
+          ))
+        ) : (
+          <li>No resources available.</li>
+        )}
+      </ul>
+    </div>
+  );
+};
 
 export default ResourceBar;

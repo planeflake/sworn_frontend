@@ -7,8 +7,8 @@ export interface Resource {
 
 
 export interface CharacterResource {
-  id: number;
-  icon: string;
+  resource_id: number;
+  icon?: string;
   name: string;
   quantity: number;
 }
@@ -21,9 +21,11 @@ export interface Character {
   skills: Skill[];
   current_area_id: number | null;
   level: number;
+  health: number;
+  max_health: number;
   xp: number;
   energy: number;
-  resources: Resource[];
+  resources: CharacterResource[];
   tasksCompleted: number;
   tasksFailed: number;
   items: Item[];
@@ -190,7 +192,7 @@ export interface TaskType {
 
 
 export interface ResourceApiResponse {
-  resources: Resource[];
+  resources: CharacterResource[];
 }
 
 // Interface for the task state

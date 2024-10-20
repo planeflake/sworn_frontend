@@ -4,6 +4,7 @@ import ThemeProvider from './Providers/ThemeProvider';
 import LanguageSwitcher from './LanguageSwitcher';
 import ThemeSwitcher from './components/ThemeSwitcher';
 import Setup from './components/Setup';
+import { MainBar } from './components/MainBar';
 import i18n from './i18n';
 
 const App: React.FC = () => {
@@ -11,6 +12,7 @@ const App: React.FC = () => {
     <ThemeProvider>
       <I18nextProvider i18n={i18n}>
         <div className="App">
+          <MainBar />
           <LanguageSwitcher />
           <ThemeSwitcher />
           <Setup /> {/* The Setup component manages the app layout */}

@@ -1,36 +1,34 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { ResourceApiResponse, ResourceState } from '../../types/types';
+import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import { CharacterResource } from '../../types/types';
 import { fetchResourcesFromAPI } from './resourceApi';
 import { RootState } from '../../app/store';
 
-const initialState: ResourceState = {
+interface ResourcesState {
+  items: CharacterResource[];
+  status: 'idle' | 'loading' | 'succeeded' | 'failed';
+  error: string | null;
+}
+
+const initialState: ResourcesState = {
   items: [],
   status: 'idle',
   error: null
 };
 
-export const fetchResources = createAsyncThunk<ResourceApiResponse, void, { state: RootState }>(
-  'tasks/fetchTasks',
+export const fetchResources = createAsyncThunk<CharacterResource[], void, { state: RootState }>(
+  'resources/fetchResources',
   async (_, { getState }) => {
     const state = getState();
-    let startingAreaId = state.character.starting_area_id;
-    let characterId = state.character.id;
-    
-    characterId = 1;  
-    startingAreaId = 2;  
-
-    if (!startingAreaId || !characterId) {
-      throw new Error('Starting area or character not selected');
-    }
+    const characterId = state.character.id;
 
     const response = await fetchResourcesFromAPI({ characterId });
-    console.log('Thunk Response:', response);
-    return response;
+    console.log('Thunk Response (Resources):', response);
+    return response as CharacterResource[];
   }
 );
 
-const tasksSlice = createSlice({
-  name: 'tasks',
+const resourcesSlice = createSlice({
+  name: 'resources',
   initialState,
   reducers: {},
   extraReducers: (builder) => {
@@ -38,20 +36,19 @@ const tasksSlice = createSlice({
       .addCase(fetchResources.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchResources.fulfilled, (state, action) => {
-        console.log('Fulfilled Action Payload:', action.payload);
+      .addCase(fetchResources.fulfilled, (state, action: PayloadAction<CharacterResource[]>) => {
         state.status = 'succeeded';
-        state.items = Array.isArray(action.payload) ? action.payload : action.payload.resources || [];
+        state.items = action.payload;
       })
       .addCase(fetchResources.rejected, (state, action) => {
         state.status = 'failed';
-        state.error = action.error.message || 'An unknown error occurred';
-      })
+        state.error = action.error.message || null;
+      });
   },
 });
 
-export const selectTasks = (state: RootState) => state.tasks.items;
-export const selectTasksStatus = (state: RootState) => state.tasks.status;
-export const selectTaskErrors = (state: RootState) => state.tasks.error;
+export const selectResources = (state: RootState): CharacterResource[] => state.resources.items;
+export const selectResourcesStatus = (state: RootState): string => state.resources.status;
+export const selectResourcesError = (state: RootState): string | null => state.resources.error;
 
-export default tasksSlice.reducer;
+export default resourcesSlice.reducer;

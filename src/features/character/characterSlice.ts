@@ -20,6 +20,8 @@ interface CharacterState {
   items?: any[];
   status?: 'idle' | 'loading' | 'succeeded' | 'failed';
   error?: string | null;
+  max_health?: number;
+  health?: number;
 }
 
 const character_id = 1;
@@ -38,6 +40,7 @@ export const fetchBaseCharacterInfo = createAsyncThunk(
     if (!response) {
       throw new Error('Failed to fetch character info');
     }
+    console.log("response: ", response);
     return response as Character;
   }
 );
